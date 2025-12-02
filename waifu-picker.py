@@ -72,7 +72,7 @@ def show_card(name, rating, compat, horoscope):
 
 today = date.today()
 seed = int(today.strftime("%Y%m%d"))
-random.seed(seed)
+random.seed(hashlib.sha256(str(today).encode()).hexdigest())
 
 for i in range(3):
     picked = random.choice(ANIME_LIST)
