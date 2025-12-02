@@ -9,6 +9,6 @@ A full interactive script that:
 A non-interactive demo run that prints three sample picks with ratings, compatability and horoscope messages.
 
 How to use locally:
-- copy the interactive script from the first executed cell into a file
-- then, run it with python waifu-picker.py or python3 waifu-picker.py
-- you can either paste your list or press Enter to use the default list
+- copy the interactive script from the first executed cell into a file.
+- then, run it with ```python waifu-picker.py``` or ```python3 waifu-picker.py```.
+- you can either paste your list or press Enter to use the default list.
