@@ -44,8 +44,6 @@ def deterministic_score(name, when):
     return val % 101
 
 def choose_template(score):
-    import random
-
     if score >= 85:
         group = "very_high"
     elif score >= 65:
@@ -83,3 +81,27 @@ for i in range(3):
     show_card(picked, rating, compat, horoscope)
 
 print("Demo complete. To use the interactive version, copy the full script provided earlier into waifu-picker.py and run `python3 waifu-picker.py` locally.")
+
+
+def save_rating(name, rating, path):
+    data = load_ratings(path)
+    data[name] = rating
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2)
+
+def load_ratings(path):
+    try:
+        with open(path, "r") as f:
+            return json.load(f)
+    except:
+        #return empty object if file doesn't exist
+        return {}
+    
+RATINGS_PATH = "waifu_ratings.json"
+
+show_card(picked, rating, compat, horoscope)
+save_rating(picked, rating, RATINGS_PATH)
+
+print(f"Saved rating for {picked}")
+print("\nCurrent saved ratings in JSON file:")
+print(load_ratings(RATINGS_PATH))
