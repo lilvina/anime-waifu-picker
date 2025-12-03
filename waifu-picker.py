@@ -63,7 +63,7 @@ def show_card(name, rating, compat, horoscope):
     print(f"PICKED: {name}")
     print("-" * 60)
     print(f"Rating (1-10): {rating}")
-    print(f"Today's compatability: {compat}%")
+    print(f"Today's compatibility: {compat}%")
     print("\nHoroscope:")
     print(textwrap.fill(horoscope, width=60))
     print(border + "\n")
@@ -72,15 +72,21 @@ today = date.today()
 seed = int(today.strftime("%Y%m%d"))
 random.seed(hashlib.sha256(str(today).encode()).hexdigest())
 
+last_pick = None
+
 for i in range(3):
     picked = random.choice(ANIME_LIST)
+
+    while picked == last_pick:
+        picked = random.choice(ANIME_LIST)
+
+    #store current pick for the next round
+    last_pick = picked
 
     rating = random.randint(6, 10)
     compat = deterministic_score(picked, today)
     horoscope = choose_template(compat)
     show_card(picked, rating, compat, horoscope)
-
-print("Demo complete. To use the interactive version, copy the full script provided earlier into waifu-picker.py and run `python3 waifu-picker.py` locally.")
 
 
 def save_rating(name, rating, path):
@@ -99,9 +105,17 @@ def load_ratings(path):
     
 RATINGS_PATH = "waifu_ratings.json"
 
-show_card(picked, rating, compat, horoscope)
-save_rating(picked, rating, RATINGS_PATH)
+picked = random.choice(ANIME_LIST)
+rating = random.randint(6, 10)
+compat = deterministic_score(picked, today)
+horoscope = choose_template(compat)
 
-print(f"Saved rating for {picked}")
+show_card(picked, rating, compat, horoscope)
+save_rating(last_pick, rating, RATINGS_PATH)
+
+print(f"Saved rating for {last_pick}")
 print("\nCurrent saved ratings in JSON file:")
 print(load_ratings(RATINGS_PATH))
+
+print("Demo complete. To use the interactive version, copy the full script provided earlier into waifu-picker.py and run `python3 waifu-picker.py` locally.")
+
